@@ -14,7 +14,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ru.fi.mycursprojectgotravel.navigation.TripNavHost
-import ru.fi.mycursprojectgotravel.ui.theme.MyCursProjectGoTravelTheme
+import ru.fi.mycursprojectgotravel.ui.theme.myColor
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,9 +25,9 @@ class MainActivity : ComponentActivity() {
                 topBar = {
                     TopAppBar(
                         title = {
-                        Text(text = "Trip App")
+                        Text(text = "GoTravel")
                     },
-                    backgroundColor = Color.Magenta,
+                    backgroundColor = myColor,
                     contentColor = Color.White,
                     elevation = 12.dp
                     )
