@@ -34,13 +34,13 @@ fun StartScreen(navHostController: NavHostController){
         ) {
             Row(horizontalArrangement = Arrangement.Center){
                 Text(
-                    "Привет! Это приложение про путешествия!",
+                    "Привет! \n Это приложение для твеого путешествия!",
                     style = TextStyle(fontSize = MaterialTheme.typography.subtitle1.fontSize)
                 )
             }
             Button(
                 onClick = {
-                    navHostController.navigate(route = NavRoutes.Main.route)
+                    navHostController.navigate(route = NavRoutes.Input.route)
                 },
                 modifier = Modifier
                     .width(150.dp)

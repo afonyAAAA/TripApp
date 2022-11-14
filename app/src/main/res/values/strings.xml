@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">MyCursProject (GoTravel)</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="PleaseLogin">Пожалуйста, введите логин</string>
+    <string name="PleasePassword">Пожалуйста, введите пароль</string>
+    <string name="PleaseRepeatPassword">Пожалуйста, повторите пароль</string>
+    <string name="HelloMessage">Привет! Это приложение для путешествия.</string>
+    <string name="Sign">Вход</string>
+    <string name="Skip">Пропустить</string>
+    <string name="registration">Регистрация</string>
+    <string name="authorizaton">Авторизация</string>
+    <string name="confirm">Потвердить</string>
 </resources>
