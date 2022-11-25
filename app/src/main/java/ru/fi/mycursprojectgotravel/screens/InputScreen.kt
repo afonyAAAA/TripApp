@@ -56,7 +56,7 @@ fun InputScreen(navHostController: NavHostController){
             {
                 Text(
                     text = stringResource(R.string.registration),
-                    color = myColor,
+                    color = myColor
                 )
             }
 
