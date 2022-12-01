@@ -5,9 +5,9 @@ import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -22,8 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -39,10 +37,10 @@ import androidx.navigation.compose.rememberNavController
 import ru.fi.mycursprojectgotravel.MainViewModel
 import ru.fi.mycursprojectgotravel.MainViewModelFactory
 import ru.fi.mycursprojectgotravel.R
+import ru.fi.mycursprojectgotravel.RegistrationViewModel
 import ru.fi.mycursprojectgotravel.model.Country
 import ru.fi.mycursprojectgotravel.ui.theme.myColor
-import java.util.*
-import kotlin.collections.ArrayList
+import ru.fi.mycursprojectgotravel.utils.list
 
 
 @Composable
@@ -51,15 +49,12 @@ fun MainScreen(navHostController: NavHostController){
     val context = LocalContext.current
     val mViewModel: MainViewModel =
         viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
-
-    Column() {
+//        Log.d("Country", list.get(0).nameCountry)
         val textState = remember { mutableStateOf(TextFieldValue("")) }
         SearchView(textState)
-        Box(modifier = Modifier.padding(15.dp)){
-//            CountryListItem(nameCountry = "Япония", onItemClick = {} )
-        }
+//        ListCountry(list = list)
 
-    }
+
 
 
 }
@@ -125,16 +120,40 @@ fun SearchViewPreview() {
     val textState = remember { mutableStateOf(TextFieldValue("")) }
     SearchView(textState)
 }
+@Composable
+private fun ListCountry(list: MutableList<Country>){
+    LazyColumn(
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(16.dp)
+    ){
+        item { 
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .wrapContentHeight()
+                    .padding(vertical = 25.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                    
+            ){
+                Text("что блять")
+            }
+        }
+        items(list){ country ->
+            CountryListItem(nameCountry = country.nameCountry.toString())
+        }
+    }
+    
+}
+
 
 @Composable
-private fun CountryListItem(country: Country,navController: NavController){
+private fun CountryListItem(nameCountry : String){
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(10.dp),
         shape = RoundedCornerShape(15.dp),
         elevation = 5.dp,
-
-
         ){
         Box(){
             Row(verticalAlignment = Alignment.CenterVertically){
@@ -149,7 +168,7 @@ private fun CountryListItem(country: Country,navController: NavController){
 
                 )
                 Column(modifier = Modifier.padding(start = 16.dp)) {
-                    Text(text = country.title)
+                    Text(text = nameCountry)
                 }
 
             }
@@ -157,11 +176,6 @@ private fun CountryListItem(country: Country,navController: NavController){
     }
 }
 
-//@Preview(showBackground = true)
-//@Composable
-//fun CountryListItemPreview() {
-//    CountryListItem(nameCountry = "United States 🇺🇸", onItemClick = { })
-//}
 
 @Preview(showBackground = true)
 @Composable
@@ -169,3 +183,4 @@ fun MainScreenPreview() {
     val navController = rememberNavController()
 
 }
+

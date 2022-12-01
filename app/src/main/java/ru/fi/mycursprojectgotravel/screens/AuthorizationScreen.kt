@@ -22,11 +22,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import kotlinx.coroutines.launch
 import ru.fi.mycursprojectgotravel.AuthorizationViewModel
 import ru.fi.mycursprojectgotravel.AuthorizationViewModelFactory
 import ru.fi.mycursprojectgotravel.R
+import ru.fi.mycursprojectgotravel.RegistrationViewModel
 import ru.fi.mycursprojectgotravel.navigation.NavRoutes
 import ru.fi.mycursprojectgotravel.ui.theme.myColor
+import ru.fi.mycursprojectgotravel.utils.LOGIN
+import ru.fi.mycursprojectgotravel.utils.PASSWORD
 
 @Composable
 fun AuthorizationScreen(navHostController: NavHostController){
@@ -38,6 +42,11 @@ fun AuthorizationScreen(navHostController: NavHostController){
     var login by remember { mutableStateOf("") }
     var password by rememberSaveable{ mutableStateOf("") }
     var passwordVisible by rememberSaveable{ mutableStateOf(false) }
+
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
+
+
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -51,7 +60,7 @@ fun AuthorizationScreen(navHostController: NavHostController){
             modifier = Modifier.padding(10.dp)
         )
 
-        TextField(
+        OutlinedTextField(
             value = login,
             onValueChange = {login = it},
             label = { Text(text = stringResource(R.string.login)) },
@@ -60,7 +69,7 @@ fun AuthorizationScreen(navHostController: NavHostController){
 
         )
 
-        TextField(
+        OutlinedTextField(
             value = password,
             onValueChange = {password = it},
             label = { Text(text = stringResource(R.string.password))},
@@ -84,10 +93,17 @@ fun AuthorizationScreen(navHostController: NavHostController){
 
         Button(
             onClick = {
-                      aViewModel.authorization {
-
-                      }
-                navHostController.navigate(route = NavRoutes.Main.route)
+                LOGIN = login
+                PASSWORD = password
+                aViewModel.authorization( {
+                    navHostController.navigate(route = NavRoutes.Main.route)
+                },
+                    {
+                        scope.launch{
+                            snackbarHostState.value.showSnackbar(it)
+                        }
+                    }
+                )
             },
             modifier = Modifier
                 .width(150.dp)
@@ -96,6 +112,9 @@ fun AuthorizationScreen(navHostController: NavHostController){
             enabled = login.isNotEmpty() && password.isNotEmpty()
         ) {
             Text(text = stringResource(R.string.confirm))
+        }
+        Box(){
+            SnackbarHost(snackbarHostState.value)
         }
 
 

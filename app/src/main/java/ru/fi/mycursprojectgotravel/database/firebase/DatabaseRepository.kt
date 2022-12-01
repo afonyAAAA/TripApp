@@ -1,17 +1,16 @@
 package ru.fi.mycursprojectgotravel.database.firebase
 
-import androidx.lifecycle.LiveData
 import ru.fi.mycursprojectgotravel.model.Country
 
 interface DatabaseRepository {
-
-    val readAll: LiveData<List<Country>>
 
     suspend fun create(country: Country, onSuccess: () -> Unit)
 
     suspend fun update(country: Country, onSuccess: () -> Unit)
 
     suspend fun delete(country: Country, onSuccess: () -> Unit)
+
+    fun readCountry(OnSuccess: (list:MutableList<Country>) -> Unit, onFail: (String) -> Unit)
 
     fun signOut()
 

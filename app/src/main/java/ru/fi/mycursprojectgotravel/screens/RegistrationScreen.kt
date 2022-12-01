@@ -19,14 +19,17 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.launch
+import ru.fi.mycursprojectgotravel.*
 import ru.fi.mycursprojectgotravel.R
-import ru.fi.mycursprojectgotravel.RegistrationViewModel
-import ru.fi.mycursprojectgotravel.RegistrationViewModelFactory
-import ru.fi.mycursprojectgotravel.model.User
+import ru.fi.mycursprojectgotravel.navigation.NavRoutes
+import ru.fi.mycursprojectgotravel.ui.theme.MyCursProjectGoTravelTheme
 import ru.fi.mycursprojectgotravel.ui.theme.myColor
 import ru.fi.mycursprojectgotravel.utils.LOGIN
 import ru.fi.mycursprojectgotravel.utils.PASSWORD
@@ -39,10 +42,14 @@ fun RegistrationScreen(navHostController: NavHostController){
         viewModel(factory = RegistrationViewModelFactory(context.applicationContext as Application))
 
     var login by remember { mutableStateOf("")}
-
     var password by rememberSaveable{mutableStateOf("")}
     var passwordVisible by rememberSaveable{ mutableStateOf(false)}
     var repeatPassword by rememberSaveable{ mutableStateOf("")}
+
+
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
+
 
     Column(
         modifier = Modifier.fillMaxSize(),
@@ -57,7 +64,7 @@ fun RegistrationScreen(navHostController: NavHostController){
             fontSize = 23.sp,
             modifier = Modifier.padding(10.dp)
         )
-        TextField(
+        OutlinedTextField(
             value = login,
             onValueChange = {login = it},
             label = { Text(text = stringResource(R.string.login))},
@@ -66,7 +73,7 @@ fun RegistrationScreen(navHostController: NavHostController){
             isError = login.isEmpty()
         )
 
-        TextField(
+        OutlinedTextField(
             value = password,
             onValueChange = {password = it},
             label = { Text(text = stringResource(R.string.password))},
@@ -90,7 +97,7 @@ fun RegistrationScreen(navHostController: NavHostController){
 
         )
 
-        TextField(
+        OutlinedTextField(
             value = repeatPassword,
             onValueChange = {repeatPassword = it},
             placeholder = { Text(text = stringResource(R.string.PleaseRepeatPassword))},
@@ -116,12 +123,17 @@ fun RegistrationScreen(navHostController: NavHostController){
                 if(password == repeatPassword){
                     LOGIN = login
                     PASSWORD = password
-                    rViewModel.registration(){
+                    rViewModel.registration({
+                        navHostController.navigate(route = NavRoutes.Authorization.route)
+                    },
+                    {
+                        scope.launch {
+                            snackbarHostState.value.showSnackbar(it)
+                        }
+                    })
 
-                    }
-//                    navHostController.navigate(route = NavRoutes.Authorization.route)
-                }else{
-                    Log.d("checkData", "Password is not valid")
+
+
                 }
 
             },
@@ -134,12 +146,19 @@ fun RegistrationScreen(navHostController: NavHostController){
         ) {
             Text(text = stringResource(R.string.confirm))
         }
+        Box(){
+            SnackbarHost(snackbarHostState.value)
+        }
 
     }
 }
+
+
+
+@Preview(showBackground = true)
 @Composable
-fun snackBar(){
-    Snackbar() {
-        Text(text = "Неверный пароль")
+fun prevRegistrationScreen(){
+    MyCursProjectGoTravelTheme() {
+        RegistrationScreen(navHostController = rememberNavController())
     }
 }

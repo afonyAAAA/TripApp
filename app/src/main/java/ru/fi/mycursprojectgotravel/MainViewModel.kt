@@ -7,11 +7,22 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import ru.fi.mycursprojectgotravel.model.Country
+import ru.fi.mycursprojectgotravel.utils.REPOSITORY
 
 class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     val openCountry: MutableLiveData<List<Country>> by lazy{
         MutableLiveData<List<Country>>()
+    }
+
+    fun getCollectionCountry(onSuccess: (MutableList<Country>) -> Unit, onFail:(String) -> Unit ){
+        var resultList : MutableList<Country> = mutableListOf()
+        REPOSITORY.readCountry(
+            {
+                resultList = it
+            },
+            {Log.d("Error", it)}
+        )
     }
 
 }

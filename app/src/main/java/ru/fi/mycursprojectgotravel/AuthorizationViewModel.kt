@@ -5,7 +5,10 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import ru.fi.mycursprojectgotravel.database.firebase.AppFireBaseRepository
+import ru.fi.mycursprojectgotravel.navigation.NavRoutes
 import ru.fi.mycursprojectgotravel.utils.REPOSITORY
+
 
 class AuthorizationViewModel(application: Application): AndroidViewModel(application) {
 
@@ -14,11 +17,11 @@ class AuthorizationViewModel(application: Application): AndroidViewModel(applica
     }
 
 
-    fun authorization(onSuccess:() -> Unit){
+    fun authorization(onSuccess:() -> Unit, onFail: (String) -> Unit){
         REPOSITORY.authoruzation(
-            {onSuccess()},
+            { onSuccess() },
             {
-               Log.d("checkData", "Error ${it}")
+                onFail(it)
             }
         )
     }
@@ -27,8 +30,8 @@ class AuthorizationViewModel(application: Application): AndroidViewModel(applica
 
 class AuthorizationViewModelFactory(private val application: Application): ViewModelProvider.Factory{
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if(modelClass.isAssignableFrom(AuthorizationViewModelFactory::class.java)){
-            return AuthorizationViewModelFactory(application = application) as T
+        if(modelClass.isAssignableFrom(AuthorizationViewModel::class.java)){
+            return AuthorizationViewModel(application = application) as T
         }
         throw IllegalStateException("")
     }

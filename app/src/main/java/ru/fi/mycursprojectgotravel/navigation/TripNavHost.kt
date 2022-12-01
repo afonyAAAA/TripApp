@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import ru.fi.mycursprojectgotravel.RegistrationViewModel
 import ru.fi.mycursprojectgotravel.screens.*
 
 sealed class NavRoutes(val route: String){
@@ -17,7 +18,7 @@ sealed class NavRoutes(val route: String){
 }
 
 @Composable
-fun TripNavHost(){
+fun TripNavHost(viewModel: Any) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = NavRoutes.Start.route){

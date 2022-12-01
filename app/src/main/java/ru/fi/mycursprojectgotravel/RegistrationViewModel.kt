@@ -25,15 +25,15 @@ class RegistrationViewModel(application: Application): AndroidViewModel(applicat
 
     }
 
-    fun registration(onSuccess: () -> Unit){
+    fun registration(onSuccess: () -> Unit, onFail : (String) -> Unit){
         Log.d("checkData", "registrationViewModel initdatabase")
-        REPOSITORY = AppFireBaseRepository()
         REPOSITORY.connectToDatabase(
             { onSuccess()},
             {
               Log.d("checkData", "Error ${it}")
-//                rejectRegistration()
+                onFail(it)
             }
+
         )
     }
 
