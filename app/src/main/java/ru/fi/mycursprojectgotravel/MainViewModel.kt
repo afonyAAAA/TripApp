@@ -15,14 +15,11 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         MutableLiveData<List<Country>>()
     }
 
-    fun getCollectionCountry(onSuccess: (MutableList<Country>) -> Unit, onFail:(String) -> Unit ){
-        var resultList : MutableList<Country> = mutableListOf()
-        REPOSITORY.readCountry(
-            {
-                resultList = it
-            },
-            {Log.d("Error", it)}
-        )
+    fun getCollectionCountry(onSuccess:(MutableList<Country>) -> Unit){
+         REPOSITORY.readCountry(
+             {onSuccess(it)},
+             {Log.d("Error", it)}
+         )
     }
 
 }

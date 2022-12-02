@@ -8,6 +8,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -31,28 +32,43 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import ru.fi.mycursprojectgotravel.MainViewModel
 import ru.fi.mycursprojectgotravel.MainViewModelFactory
 import ru.fi.mycursprojectgotravel.R
-import ru.fi.mycursprojectgotravel.RegistrationViewModel
 import ru.fi.mycursprojectgotravel.model.Country
 import ru.fi.mycursprojectgotravel.ui.theme.myColor
-import ru.fi.mycursprojectgotravel.utils.list
+import kotlin.concurrent.thread
 
 
 @Composable
 fun MainScreen(navHostController: NavHostController){
 
+
+
+
     val context = LocalContext.current
     val mViewModel: MainViewModel =
         viewModel(factory = MainViewModelFactory(context.applicationContext as Application))
-//        Log.d("Country", list.get(0).nameCountry)
-        val textState = remember { mutableStateOf(TextFieldValue("")) }
+    var listCountry : MutableList<Country> = mutableListOf()
+
+    runBlocking {
+        launch {
+            mViewModel.getCollectionCountry {
+                listCountry = it
+            }
+        }
+    }
+
+    val textState = remember { mutableStateOf(TextFieldValue("")) }
+
+
+
         SearchView(textState)
-//        ListCountry(list = list)
+        ListCountry(list = listCountry)
 
 
 
@@ -120,27 +136,17 @@ fun SearchViewPreview() {
     val textState = remember { mutableStateOf(TextFieldValue("")) }
     SearchView(textState)
 }
+
 @Composable
 private fun ListCountry(list: MutableList<Country>){
     LazyColumn(
         modifier = Modifier.fillMaxWidth(),
-        contentPadding = PaddingValues(16.dp)
+        contentPadding = PaddingValues(16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ){
-        item { 
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .wrapContentHeight()
-                    .padding(vertical = 25.dp),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically
-                    
-            ){
-                Text("что блять")
-            }
-        }
-        items(list){ country ->
-            CountryListItem(nameCountry = country.nameCountry.toString())
+        itemsIndexed(list){_, item ->
+            CountryListItem(nameCountry = item.nameCountry)
         }
     }
     

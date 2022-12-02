@@ -10,6 +10,7 @@ import ru.fi.mycursprojectgotravel.RegistrationViewModel
 import ru.fi.mycursprojectgotravel.model.Country
 import ru.fi.mycursprojectgotravel.utils.LOGIN
 import ru.fi.mycursprojectgotravel.utils.PASSWORD
+import kotlin.concurrent.thread
 
 class AppFireBaseRepository(): DatabaseRepository {
 
@@ -29,28 +30,26 @@ class AppFireBaseRepository(): DatabaseRepository {
         TODO("Not yet implemented")
     }
 
-    override fun readCountry(onSuccess: (list:MutableList<Country>) -> Unit, onFail: (String) -> Unit) {
+    override fun readCountry(onSuccess: (list:MutableList<Country>) -> Unit, onFail: (String) -> Unit){
+        var countryList:MutableList<Country> = arrayListOf()
         db.collection("Countries")
             .get()
             .addOnSuccessListener{ result ->
-                var country = Country()
-                var countryList:MutableList<Country> = mutableListOf()
                 var i = 0
                 for(element in result){
                     if(i < result.size()){
+                        var country = Country()
+                        countryList.add(i,country)
                         country.id = element.id
                         country.nameCountry = element.get("NameCountry").toString()
                         country.generalDescription = element.get("GeneralDescription").toString()
-                        countryList.add(i,country)
-                        i++
-                    }else{
-                        Log.d("DATA", countryList.get(0).nameCountry)
-                        onSuccess(countryList)
+                        ++i
                     }
                 }
+                onSuccess(countryList)
             }
             .addOnFailureListener { exception ->
-                onFail(exception.toString())
+               onFail(exception.toString())
             }
     }
 
