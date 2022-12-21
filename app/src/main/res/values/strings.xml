@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MyCursProject (GoTravel)</string>
+    <string name="app_name">GoTravel</string>
     <string name="login">Логин</string>
     <string name="hello">Привет!</string>
     <string name="password">Пароль</string>
@@ -13,4 +13,35 @@
     <string name="authorizaton">Авторизация</string>
     <string name="confirm">Потвердить</string>
     <string name="SelectSign">Выберите способ входа в приложение:</string>
+    <string name="CultureText">Культура</string>
+    <string name="FoodText">Кухня</string>
+    <string name="CityText">Города</string>
+    <string name="AttractionText">Достопримечательности</string>
+    <string name="HabitsAndCustoms">Привычки и обычаи</string>
+    <string name="Architecture">Архитекутра</string>
+    <string name="Music">Музыка</string>
+    <string name="Cites">Города</string>
+    <string name="Exit">Выйти</string>
+    <string name="Category">Категория</string>
+    <string name="Countries">Страны</string>
+    <string name="Food">Блюда</string>
+    <string name="News">Новости</string>
+    <string name="Places">Места</string>
+    <string name="Green">Зелёная</string>
+    <string name="Dark">Темная</string>
+    <string name="Light">Светлая</string>
+    <string name="Vegan">Вегатарианское</string>
+    <string name="ColorsThemeApp">Цветовая тема приложения:</string>
+    <string name="Settings">Настройки</string>
+    <string name="Favorite">Избранное</string>
+    <string name="InfoSizeText">Данная настройка изменяет размер шрифта текста на таких окнах, где находится большое количество текста для чтения</string>
+    <string name="PasswordExcept">Длина пароля должна быть больше 5 символов.</string>
+    <string name="exceptAutorization">Неправильный логин или пароль.</string>
+    <string name="emailExcept">Проверьте корректность введенного логина.</string>
+    <string name="PasswordExcept2">Пароль неправильный или такого аккаунта с таким паролем не существует.</string>
+    <string name="otherExcept">Авторизация сейчас невозможна. Попробуйте повторить позже.</string>
+    <string name="UserIsExist">Аккаунт с таким логином уже существует</string>
+    <string name="PassworidIsNotValid2">Проверьте правильность повтора пароля</string>
+    <string name="NoInternet">Отсутствует интернет соединение</string>
+    <string name="NoInternetDescription">Для работы приложения требуется подключение к интернету</string>
 </resources>

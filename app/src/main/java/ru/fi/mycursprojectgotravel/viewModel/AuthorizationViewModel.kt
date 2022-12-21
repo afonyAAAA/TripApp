@@ -1,21 +1,15 @@
-package ru.fi.mycursprojectgotravel
+package ru.fi.mycursprojectgotravel.viewModel
 
 import android.app.Application
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import ru.fi.mycursprojectgotravel.database.firebase.AppFireBaseRepository
-import ru.fi.mycursprojectgotravel.navigation.NavRoutes
+import ru.fi.mycursprojectgotravel.model.Country
 import ru.fi.mycursprojectgotravel.utils.REPOSITORY
+import java.util.*
 
 
 class AuthorizationViewModel(application: Application): AndroidViewModel(application) {
-
-    fun rejectAuth(): Boolean{
-        return false
-    }
-
 
     fun authorization(onSuccess:() -> Unit, onFail: (String) -> Unit){
         REPOSITORY.authoruzation(
@@ -25,7 +19,6 @@ class AuthorizationViewModel(application: Application): AndroidViewModel(applica
             }
         )
     }
-
 }
 
 class AuthorizationViewModelFactory(private val application: Application): ViewModelProvider.Factory{

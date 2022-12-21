@@ -2,7 +2,7 @@ package ru.fi.mycursprojectgotravel.database.firebase
 
 import ru.fi.mycursprojectgotravel.model.*
 
-interface DatabaseRepository {
+interface DatabaseRepositoryTest {
 
     fun readCountry(OnSuccess: (list:MutableList<Country>) -> Unit, onFail: (String) -> Unit)
 
@@ -10,28 +10,26 @@ interface DatabaseRepository {
 
     fun readCity(OnSuccess: (list:MutableList<City>) -> Unit, onFail: (String) -> Unit)
 
-    fun readFavorite(  onSuccess: (MutableList<Country>) -> Unit, onFail: (String) -> Unit, idFavorite : String)
-
-    fun readAttraction(onSuccess: (list: MutableList<Attraction>) -> Unit, onFail: (String) -> Unit)
+    fun readFavorite( onSuccess: (MutableList<Country>) -> Unit, onFail: (String) -> Unit, idFavorite : String)
 
     fun addData()
 
     fun addIdFavorite(onSuccess: (String) -> Unit)
 
-    fun addFavorite(idElementFavorite: String, idFavorite : String,  onFail: () -> Unit, onSuccess: () -> Unit)
+    fun addFavorite(idElementFavorite: String, idFavorite : String)  : Boolean
 
     fun checkIdFavorite(onSuccess: (Boolean) -> Unit)
 
     fun addUser(idUser : String)
 
-    fun registration(onSuccess: () -> Unit, onFail: (String) -> Unit)
+    fun registration(login : String, password : String) : Boolean
 
-    fun authoruzation(onSuccess: () -> Unit, onFail: (String) -> Unit)
+    fun authorization(login : String, password : String) : Boolean
 
     fun getFavoritesUser(onSuccess: (MutableList<CountryFavorites>) -> Unit, idfavorite : String)
 
     fun getIdFavoriteUser(onSuccess: (String) -> Unit, onFail: (String) -> Unit)
 
-    fun deleteFavorite(idElementFavorite: String, idFavorite : String)
+    fun deleteFavorite(idElementFavorite: String, idFavorite : String) : Boolean
 
 }

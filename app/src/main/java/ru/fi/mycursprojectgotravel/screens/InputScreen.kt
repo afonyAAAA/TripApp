@@ -16,9 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import ru.fi.mycursprojectgotravel.navigation.NavRoutes
-import ru.fi.mycursprojectgotravel.ui.theme.myColor
 import ru.fi.mycursprojectgotravel.R
-
+import ru.fi.mycursprojectgotravel.utils.*
 
 
 @Composable
@@ -30,34 +29,32 @@ fun InputScreen(navHostController: NavHostController){
             verticalArrangement = Arrangement.Center
         ){
             Text(
-                text = stringResource(R.string.SelectSign),
+                text = SelectSign,
                 fontWeight = FontWeight.Light,
                 fontSize = 16.sp
             )
 
             OutlinedButton(onClick = { navHostController.navigate(NavRoutes.Authorization.route) },
-                border = BorderStroke(2.dp, myColor),
+                border = BorderStroke(2.dp, PRIMARY_COLOR.value),
                 modifier = Modifier.padding(10.dp))
             {
                 Text(
-                    text = stringResource(R.string.authorizaton),
-                    color = myColor
+                    text = authorizaton
                 )
             }
 
             OutlinedButton(
                 onClick = { navHostController.navigate(route = NavRoutes.Registration.route) },
-                border = BorderStroke(2.dp, myColor)
+                border = BorderStroke(2.dp, PRIMARY_COLOR.value)
             )
             {
                 Text(
-                    text = stringResource(R.string.registration),
-                    color = myColor
+                    text = registration
                 )
             }
 
             Text(
-                text = stringResource(R.string.Skip),
+                text = Skip,
                 fontStyle = FontStyle.Italic,
                 textDecoration = TextDecoration.Underline,
                 modifier = Modifier

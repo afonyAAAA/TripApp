@@ -1,8 +1,12 @@
 package ru.fi.mycursprojectgotravel
 
-import org.junit.Test
+import android.app.Application
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
 
-import org.junit.Assert.*
+import org.junit.jupiter.api.Test
+import ru.fi.mycursprojectgotravel.viewModel.AuthorizationViewModel
+import ru.fi.mycursprojectgotravel.viewModel.AuthorizationViewModelFactory
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -12,6 +16,6 @@ import org.junit.Assert.*
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+
     }
 }

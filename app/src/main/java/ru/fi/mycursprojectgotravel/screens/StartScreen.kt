@@ -15,10 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import ru.fi.mycursprojectgotravel.R
-import ru.fi.mycursprojectgotravel.RegistrationViewModel
 import ru.fi.mycursprojectgotravel.navigation.NavRoutes
-import ru.fi.mycursprojectgotravel.ui.theme.MyCursProjectGoTravelTheme
 import ru.fi.mycursprojectgotravel.ui.theme.myColor
+import ru.fi.mycursprojectgotravel.utils.Hello
+import ru.fi.mycursprojectgotravel.utils.HelloMessage
 
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -34,11 +34,11 @@ fun StartScreen(navHostController: NavHostController){
         ) {
 
                 Text(
-                    text = stringResource(R.string.hello),
+                    text = Hello,
                     style = TextStyle(fontSize = MaterialTheme.typography.subtitle1.fontSize)
                 )
                 Text(
-                    text = stringResource(R.string.HelloMessage),
+                    text = HelloMessage,
                     style = TextStyle(fontSize = MaterialTheme.typography.subtitle1.fontSize)
                 )
 
@@ -57,11 +57,3 @@ fun StartScreen(navHostController: NavHostController){
         }
     }
 
-
-@Preview(showBackground = true)
-@Composable
-fun prevStartScreen(){
-    MyCursProjectGoTravelTheme() {
-        StartScreen(navHostController = rememberNavController())
-    }
-}

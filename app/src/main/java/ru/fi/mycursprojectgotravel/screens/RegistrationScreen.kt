@@ -1,7 +1,7 @@
 package ru.fi.mycursprojectgotravel.screens
 
 import android.app.Application
-import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -26,13 +26,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import kotlinx.coroutines.launch
-import ru.fi.mycursprojectgotravel.*
 import ru.fi.mycursprojectgotravel.R
+import ru.fi.mycursprojectgotravel.viewModel.RegistrationViewModel
+import ru.fi.mycursprojectgotravel.viewModel.RegistrationViewModelFactory
 import ru.fi.mycursprojectgotravel.navigation.NavRoutes
-import ru.fi.mycursprojectgotravel.ui.theme.MyCursProjectGoTravelTheme
 import ru.fi.mycursprojectgotravel.ui.theme.myColor
-import ru.fi.mycursprojectgotravel.utils.LOGIN
-import ru.fi.mycursprojectgotravel.utils.PASSWORD
+import ru.fi.mycursprojectgotravel.utils.*
 
 @Composable
 fun RegistrationScreen(navHostController: NavHostController){
@@ -46,7 +45,11 @@ fun RegistrationScreen(navHostController: NavHostController){
     var passwordVisible by rememberSaveable{ mutableStateOf(false)}
     var repeatPassword by rememberSaveable{ mutableStateOf("")}
 
-
+    val passwordIsNotValid = PasswordIsNotValid2
+    val userIsExist:String = UserIsExist
+    val emailExcept: String = emailExcept
+    val otherExcept : String = otherExcept
+    val passwordIsInvalid: String = PasswordExcept
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { mutableStateOf(SnackbarHostState()) }
 
@@ -59,7 +62,7 @@ fun RegistrationScreen(navHostController: NavHostController){
 
     ) {
         Text(
-            text = stringResource(R.string.registration),
+            text = registration,
             fontWeight = FontWeight.Bold,
             fontSize = 23.sp,
             modifier = Modifier.padding(10.dp)
@@ -67,18 +70,19 @@ fun RegistrationScreen(navHostController: NavHostController){
         OutlinedTextField(
             value = login,
             onValueChange = {login = it},
-            label = { Text(text = stringResource(R.string.login))},
+            label = { Text(text = LoginText)},
             placeholder = { Text(text = stringResource(R.string.PleaseLogin))},
-            modifier = Modifier.padding(10.dp),
-            isError = login.isEmpty()
+            modifier = Modifier.padding(5.dp),
+            isError = login.isEmpty(),
+            singleLine = true
         )
 
         OutlinedTextField(
             value = password,
             onValueChange = {password = it},
-            label = { Text(text = stringResource(R.string.password))},
+            label = { Text(text = PasswordText)},
             singleLine = true,
-            placeholder = { Text(text = stringResource(R.string.PleasePassword))},
+            placeholder = { Text(text = PleasePassword)},
             visualTransformation = if(passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
             trailingIcon = {
@@ -93,14 +97,14 @@ fun RegistrationScreen(navHostController: NavHostController){
                 }
             },
             modifier = Modifier.padding(10.dp),
-            isError = password.isEmpty()
+            isError = password.isEmpty(),
 
         )
 
         OutlinedTextField(
             value = repeatPassword,
             onValueChange = {repeatPassword = it},
-            placeholder = { Text(text = stringResource(R.string.PleaseRepeatPassword))},
+            placeholder = { Text(text = PleaseRepeatPassword)},
             singleLine = true,
             visualTransformation = if(passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
@@ -116,35 +120,57 @@ fun RegistrationScreen(navHostController: NavHostController){
                 }
             },
             modifier = Modifier.padding(10.dp),
-            isError = repeatPassword.isEmpty()
+            isError = repeatPassword.isEmpty(),
         )
+
         Button(
             onClick = {
                 if(password == repeatPassword){
-                    LOGIN = login
-                    PASSWORD = password
-                    rViewModel.registration({
-                        navHostController.navigate(route = NavRoutes.Authorization.route)
-                    },
-                    {
+                    if(password.length > 5){
+                        LOGIN = login
+                        PASSWORD = password
+                        rViewModel.registration({
+                            navHostController.navigate(route = NavRoutes.Authorization.route)
+                        },
+                            {
+                                when (it) {
+                                    "The email address is badly formatted." -> {
+                                        scope.launch {
+                                            snackbarHostState.value.showSnackbar(emailExcept)
+                                        }
+                                    }
+                                    "The email address is already in use by another account."-> {
+                                        scope.launch {
+                                            snackbarHostState.value.showSnackbar(userIsExist)
+                                        }
+                                    }
+                                    else -> {
+                                        scope.launch {
+                                            snackbarHostState.value.showSnackbar(it)
+                                        }
+                                    }
+                                }
+                            })
+                    }else{
                         scope.launch {
-                            snackbarHostState.value.showSnackbar(it)
+                            snackbarHostState.value.showSnackbar(passwordIsInvalid)
                         }
-                    })
+                    }
 
-
-
+                }else{
+                    scope.launch {
+                        snackbarHostState.value.showSnackbar(passwordIsNotValid)
+                    }
                 }
-
             },
             modifier = Modifier
                 .width(150.dp)
                 .padding(10.dp),
-            colors = ButtonDefaults.buttonColors(backgroundColor = myColor, contentColor = Color.White),
+            colors = ButtonDefaults.buttonColors(backgroundColor = PRIMARY_COLOR.value, contentColor = Color.White),
             enabled = login.isNotEmpty() && password.isNotEmpty() && repeatPassword.isNotEmpty()
 
         ) {
-            Text(text = stringResource(R.string.confirm))
+            Text(text = confirm)
         }
         Box(){
             SnackbarHost(snackbarHostState.value)
@@ -155,10 +181,3 @@ fun RegistrationScreen(navHostController: NavHostController){
 
 
 
-@Preview(showBackground = true)
-@Composable
-fun prevRegistrationScreen(){
-    MyCursProjectGoTravelTheme() {
-        RegistrationScreen(navHostController = rememberNavController())
-    }
-}

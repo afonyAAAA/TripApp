@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.MyCursProjectGoTravel" parent="android:Theme.Material.Light.NoActionBar">
-        <item name="android:statusBarColor">@color/purple_700</item>
+    <style name="Theme.GoTravelLight" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/myColor</item>
+    </style>
+
+    <style name="Theme.GoTravelArabic" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/arabic</item>
+    </style>
+    <style name="Theme.GoTravelDark" parent="android:ThemeOverlay.Material.Dark">
+        <item name="android:statusBarColor">@color/black</item>
     </style>
 </resources>
